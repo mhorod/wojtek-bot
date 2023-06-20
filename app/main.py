@@ -3,6 +3,7 @@ from discord.ext import commands
 
 import ping
 from color_roles import ColorRoles
+from subject_roles import SubjectRoles, BasicPermissions
 
 # Create intents for managing reactions and channels
 intents = discord.Intents.default()
@@ -22,5 +23,9 @@ def load_token(path):
     
 ping.add_ping(bot)
 ColorRoles(bot)
+with open("subjects.txt", "r") as f:
+    subjects = [s for s in f.read().split("\n") if s]
+permissions = BasicPermissions()
+SubjectRoles(bot, subjects, permissions)
 bot.event(on_ready)
 bot.run(load_token("secrets/TOKEN"))
